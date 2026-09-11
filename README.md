@@ -34,7 +34,7 @@ foo.consume(:bar, 'world') # ==> [ Foo, :vbar, 'world' ]
 foo.consume('foo', 'hello') # ==> [ Foo, :vfoo, 'hello' ]
 foo.consume('bar', 'world') # ==> [ Foo, :vbar, 'world' ]
 
-foo.consume(:nada, 'nemo') # ==> NoMethodError 'no :validate_nada method'
+foo.consume(:nada, 'nemo') # ==> NoMethodError, 'no :validate_nada method'
 ```
 
 ## against a singleton class
