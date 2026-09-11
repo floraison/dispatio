@@ -1,7 +1,7 @@
 
 module Dispatio
 
-  VERSION = '1.0.0'
+  VERSION = '1.0.0'.freeze
 
   class << self
 
@@ -15,7 +15,8 @@ module Dispatio
             m.to_s.start_with?(prefix) }
           .inject({}) { |h, m|
             h[m.to_s[prefix.length..-1]] = point.method(m)
-            h })
+            h }
+      ).freeze
     end
   end
 
@@ -24,7 +25,7 @@ module Dispatio
     def initialize(prefix, table)
 
       @prefix = prefix
-      @table = table
+      @table = table.freeze
     end
 
     def dispatch(name, *args, **opts, &block)
