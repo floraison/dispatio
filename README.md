@@ -31,6 +31,9 @@ foo = Foo.new
 foo.consume(:foo, 'hello') # ==> [ Foo, :vfoo, 'hello' ]
 foo.consume(:bar, 'world') # ==> [ Foo, :vbar, 'world' ]
 
+foo.consume('foo', 'hello') # ==> [ Foo, :vfoo, 'hello' ]
+foo.consume('bar', 'world') # ==> [ Foo, :vbar, 'world' ]
+
 foo.consume(:nada, 'nemo') # ==> NoMethodError 'no :validate_nada method'
 ```
 
@@ -62,6 +65,9 @@ end
 
 Bar.consume(:foo, 'hello') # ==> [ Bar, :vfoo, 'hello' ]
 Bar.consume(:bar, 'world') # ==> [ Bar, :vbar, 'world' ]
+
+Bar.consume('foo', 'hello') # ==> [ Bar, :vfoo, 'hello' ]
+Bar.consume('bar', 'world') # ==> [ Bar, :vbar, 'world' ]
 
 Bar.consume(:nada, 'nemo') # ==> NoMethodError, 'no :validate_nada method'
 ```

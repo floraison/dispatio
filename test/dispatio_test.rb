@@ -57,6 +57,9 @@ group 'Dispatio' do
     assert foo.consume(:foo, 'hello'), [ Foo, :vfoo, 'hello' ]
     assert foo.consume(:bar, 'world'), [ Foo, :vbar, 'world' ]
 
+    assert foo.consume('foo', 'hello'), [ Foo, :vfoo, 'hello' ]
+    assert foo.consume('bar', 'world'), [ Foo, :vbar, 'world' ]
+
     assert_error(
       lambda { foo.consume(:nada, 'nemo') },
       NoMethodError, 'no :validate_nada method')
@@ -66,6 +69,9 @@ group 'Dispatio' do
 
     assert Bar.consume(:foo, 'hello'), [ Bar, :vfoo, 'hello' ]
     assert Bar.consume(:bar, 'world'), [ Bar, :vbar, 'world' ]
+
+    assert Bar.consume('foo', 'hello'), [ Bar, :vfoo, 'hello' ]
+    assert Bar.consume('bar', 'world'), [ Bar, :vbar, 'world' ]
 
     assert_error(
       lambda { Bar.consume(:nada, 'nemo') },
