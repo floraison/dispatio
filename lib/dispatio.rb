@@ -16,6 +16,7 @@ module Dispatio
           .inject({}) { |h, m|
             h[m.to_s[prefix.length..-1]] = point.method(m)
             h })
+.tap { |x| pp x }
     end
   end
 

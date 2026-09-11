@@ -27,15 +27,41 @@ group 'Dispatio' do
     def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
   end
 
+  class Bar
+
+    class << self
+
+      def consume(name, data)
+
+        dtable.dispatch(name, data)
+      end
+
+      protected
+
+      def validate_foo(data)
+        [ self, :vfoo, data ]
+      end
+
+      def validate_bar(data)
+        [ self, :vbar, data ]
+      end
+
+      def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
+    end
+  end
+
   test 'against instance' do
 
     foo = Foo.new
 
     assert foo.consume(:foo, 'hello'), [ Foo, :vfoo, 'hello' ]
+    assert foo.consume(:bar, 'world'), [ Foo, :vbar, 'world' ]
   end
 
-  #test 'against singleton class' do
-  #  assert foo.consume(:foo, 'hello'), [ Foo, :vfoo, 'hello' ]
-  #end
+  test 'against singleton class' do
+
+    assert Bar.consume(:foo, 'hello'), [ Bar, :vfoo, 'hello' ]
+    assert Bar.consume(:bar, 'world'), [ Bar, :vbar, 'world' ]
+  end
 end
 
