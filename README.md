@@ -6,6 +6,8 @@ A stupid dispatch table tool.
 ## against an instance
 
 ```ruby
+require 'dispatio'
+
 class Foo
 
   def consume(name, data)
@@ -40,6 +42,8 @@ foo.consume(:nada, 'nemo') # ==> NoMethodError, 'no :validate_nada method'
 ## against a singleton class
 
 ```ruby
+require 'dispatio'
+
 class Bar
 
   class << self
