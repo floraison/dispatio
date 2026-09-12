@@ -50,6 +50,37 @@ group 'Dispatio' do
     end
   end
 
+  class Baz; class << self
+
+    def consume0(name, data)
+
+      dtable.call(name, data)
+    end
+
+    def consume1(name, data)
+
+      dtable[name].call(data)
+    end
+
+    def consume2(name, data)
+
+      dtable[name].(data)
+    end
+
+    def consume3(name, data)
+
+      dtable.(name, data)
+    end
+
+    protected
+
+    def validate_foo(data)
+      [ self, :vfoo, data ]
+    end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
+  end; end
+
   test 'against instance' do
 
     foo = Foo.new
@@ -76,6 +107,14 @@ group 'Dispatio' do
     assert_error(
       lambda { Bar.consume(:nada, 'nemo') },
       NoMethodError, 'no :validate_nada method')
+  end
+
+  test 'calls Baz' do
+
+    assert Baz.consume0(:foo, 'seven'), [ Baz, :vfoo, 'seven' ]
+    assert Baz.consume1(:foo, 11), [ Baz, :vfoo, 11 ]
+    assert Baz.consume2(:foo, 12), [ Baz, :vfoo, 12 ]
+    assert Baz.consume3(:foo, 13), [ Baz, :vfoo, 13 ]
   end
 end
 

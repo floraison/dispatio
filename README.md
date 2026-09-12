@@ -15,7 +15,11 @@ class Foo
 
   def consume(name, data)
 
-    dtable.dispatch(name, data)
+    dtable.dispatch(name, data) # or
+    #dtable.call(name, data) # or
+    #dtable[name].call(data) # or
+    #dtable[name].(data) # or
+    #dtable.(name, data)
   end
 
   protected
@@ -53,7 +57,11 @@ class Bar
 
     def consume(name, data)
 
-      dtable.dispatch(name, data)
+      dtable.dispatch(name, data) # or
+      #dtable.call(name, data) # or
+      #dtable[name].call(data) # or
+      #dtable[name].(data) # or
+      #dtable.(name, data)
     end
 
     protected

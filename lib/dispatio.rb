@@ -28,12 +28,18 @@ module Dispatio
       @table = table.freeze
     end
 
-    def dispatch(name, *args, **opts, &block)
+    def [](name)
 
-      ( @table[name.to_s] ||
+      @table[name.to_s]
+    end
+
+    def call(name, *args, **opts, &block)
+
+      ( self[name] ||
         fail(NoMethodError.new("no :#{@prefix}#{name} method"))
           ).call(*args, **opts, &block)
     end
+    alias dispatch call
   end
 end
 
