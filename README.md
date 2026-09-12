@@ -1,7 +1,10 @@
 
 # dispatio
 
+[![Gem Version](https://badge.fury.io/rb/dispatio.svg)](http://badge.fury.io/rb/dispatio)
+
 A stupid dispatch table tool.
+
 
 ## against an instance
 
