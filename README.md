@@ -20,6 +20,7 @@ class Foo
     #dtable.(name, data)        #
     #dtable[name].call(data) # or
     #dtable[name].(data)     #
+    #dtable[name][data]      #
       #
       # just use the one you like
   end
@@ -64,6 +65,7 @@ class Bar
       #dtable.(name, data)        #
       #dtable[name].call(data) # or
       #dtable[name].(data)     #
+      #dtable[name][data]      #
         #
         # just use the one you like
     end

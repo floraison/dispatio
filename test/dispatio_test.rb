@@ -52,25 +52,11 @@ group 'Dispatio' do
 
   class Baz; class << self
 
-    def consume0(name, data)
-
-      dtable.call(name, data)
-    end
-
-    def consume1(name, data)
-
-      dtable[name].call(data)
-    end
-
-    def consume2(name, data)
-
-      dtable[name].(data)
-    end
-
-    def consume3(name, data)
-
-      dtable.(name, data)
-    end
+    def consume0(name, data); dtable.call(name, data); end
+    def consume1(name, data); dtable[name].call(data); end
+    def consume2(name, data); dtable[name].(data); end
+    def consume3(name, data); dtable.(name, data); end
+    def consume4(name, data); dtable[name][data]; end
 
     protected
 
@@ -115,6 +101,7 @@ group 'Dispatio' do
     assert Baz.consume1(:foo, 11), [ Baz, :vfoo, 11 ]
     assert Baz.consume2(:foo, 12), [ Baz, :vfoo, 12 ]
     assert Baz.consume3(:foo, 13), [ Baz, :vfoo, 13 ]
+    assert Baz.consume4(:foo, -1), [ Baz, :vfoo, -1 ]
   end
 end
 
