@@ -16,10 +16,12 @@ class Foo
   def consume(name, data)
 
     dtable.dispatch(name, data) # or
-    #dtable.call(name, data) # or
+    #dtable.call(name, data)    #
+    #dtable.(name, data)        #
     #dtable[name].call(data) # or
-    #dtable[name].(data) # or
-    #dtable.(name, data)
+    #dtable[name].(data)     #
+      #
+      # just use the one you like
   end
 
   protected
@@ -58,10 +60,12 @@ class Bar
     def consume(name, data)
 
       dtable.dispatch(name, data) # or
-      #dtable.call(name, data) # or
+      #dtable.call(name, data)    #
+      #dtable.(name, data)        #
       #dtable[name].call(data) # or
-      #dtable[name].(data) # or
-      #dtable.(name, data)
+      #dtable[name].(data)     #
+        #
+        # just use the one you like
     end
 
     protected
