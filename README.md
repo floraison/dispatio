@@ -5,6 +5,42 @@
 
 A stupid dispatch table tool.
 
+```ruby
+require 'dispatio'
+
+class MyClass
+
+  def consume(type, msg)
+
+    (@ctable ||= Dispatio.make_table(self, 'consume_').call(type, msg)
+      # or
+    #(@ctable ||= Dispatio.make_table(self, prefix: 'consume_').call(type, msg)
+  end
+
+  def post(type, msg)
+
+    (@ptable ||= Dispatio.make_table(self, suffix: '_post').call(type, msg)
+  end
+
+  protected
+
+  def consume_this(msg)
+    # ...
+  end
+  def consume_that(msg)
+    # ...
+  end
+  def this_post(msg)
+    # ...
+  end
+  def that_post(msg)
+    # ...
+  end
+end
+```
+
+The `Dispatio.make_table(klass, prefix_or_opts)` creates a dispatch table by enumerating the matching (prefix or suffix) methods. One can then `call` (or `dispatch`) the table to call the corresponding method.
+
 
 ## against an instance
 
@@ -36,6 +72,8 @@ class Foo
   end
 
   def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
+    # or
+  #def dtable; @dtable ||= Dispatio.make_table(self, prefix: 'validate_'); end
 end
 
 foo = Foo.new
@@ -81,6 +119,8 @@ class Bar
     end
 
     def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
+      # or
+    #def dtable; @dtable ||= Dispatio.make_table(self, prefix: 'validate_'); end
   end
 end
 

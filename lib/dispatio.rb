@@ -23,8 +23,6 @@ module Dispatio
         "missing or invalid prefix: or suffix: option"
       ) unless optklas == [ String ]
 
-      # TODO opts[:exclude]
-
       Dispatio::Table.new(
         opts,
         point
