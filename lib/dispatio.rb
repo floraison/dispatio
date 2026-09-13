@@ -29,9 +29,11 @@ module Dispatio
           .methods
           .inject({}) { |h, m|
             if px = opts[:prefix]
-              h[m.to_s[px.size..-1]] = point.method(m) if m.to_s.start_with?(px)
+              h[m.to_s[px.length..-1]] = point.method(m) \
+                if m.to_s.start_with?(px)
             else; sx = opts[:suffix]
-              h[m.to_s[0, sx.size-2]] = point.method(m) if m.to_s.end_with?(sx)
+              h[m.to_s[0..-(sx.length + 1)]] = point.method(m) \
+                if m.to_s.end_with?(sx)
             end
             h }
       ).freeze

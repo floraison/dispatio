@@ -126,6 +126,18 @@ group 'Dispatio' do
     def dtable; @dtable ||= Dispatio.make_table(self, suffix: '_post'); end
   end; end
 
+  class Suffren; class << self
+
+    def post(name, msg); dtable.call(name, msg); end
+
+    protected
+
+    def frigate_build(msg); [ :frigate, msg ]; end
+    def battleship_build(msg); [ :battleship, msg ]; end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, suffix: '_build'); end
+  end; end
+
   group 'prefix: and suffix:' do
 
     test 'prefix:' do
@@ -146,6 +158,12 @@ group 'Dispatio' do
       assert_error(
         lambda { Sufficient.post(:nada, 'meh') },
         NoMethodError, 'no :nada_post method')
+    end
+
+    test 'suffix: again' do
+
+      assert Suffren.post(:frigate, 'Duquesne'), [ :frigate, 'Duquesne' ]
+      assert Suffren.post(:battleship, 'Missouri'), [ :battleship, 'Missouri' ]
     end
   end
 end
