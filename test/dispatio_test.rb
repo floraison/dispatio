@@ -180,5 +180,26 @@ group 'Dispatio' do
       assert Duquesne.post(:carrier, 'DeGaulle'), [ :carrier, 'DeGaulle' ]
     end
   end
+
+  group '#include?(name)' do
+
+    test 'returns true if the name is included' do
+
+      assert Suffren.send(:dtable).include?(:frigate), true
+      assert Suffren.send(:dtable).include?(:battleship), true
+      assert Suffren.send(:dtable).include?(:carrier), false
+      assert Suffren.send(:dtable).include?('frigate'), true
+      assert Suffren.send(:dtable).include?('battleship'), true
+      assert Suffren.send(:dtable).include?('carrier'), false
+    end
+  end
+
+  group '#names()' do
+
+    test 'list names' do
+
+      assert Suffren.send(:dtable).names, %w[ frigate battleship ]
+    end
+  end
 end
 

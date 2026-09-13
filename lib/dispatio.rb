@@ -69,6 +69,16 @@ module Dispatio
       m.call(*args, **opts, &block)
     end
     alias dispatch call
+
+    def names
+
+      @table.keys
+    end
+
+    def include?(name)
+
+      @table.keys.include?(name.to_s)
+    end
   end
 end
 
