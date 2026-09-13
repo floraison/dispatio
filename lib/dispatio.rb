@@ -5,16 +5,36 @@ module Dispatio
 
   class << self
 
-    def make_table(point, prefix)
+    def make_table(point, prefix_or_opts)
+
+      opts =
+        prefix_or_opts.is_a?(String) ? { prefix: prefix_or_opts } :
+        prefix_or_opts
+
+      fail(
+        ArgumentError,
+        "2nd arg to Dispatio.make_table must be a string or option hash"
+      ) unless opts.is_a?(Hash)
+
+      optklas = [ opts[:prefix], opts[:suffix] ].compact.map(&:class).uniq
+        #
+      fail(
+        ArgumentError,
+        "missing or invalid prefix: or suffix: option"
+      ) unless optklas == [ String ]
+
+      # TODO opts[:exclude]
 
       Dispatio::Table.new(
-        prefix,
+        opts,
         point
           .methods
-          .select { |m|
-            m.to_s.start_with?(prefix) }
           .inject({}) { |h, m|
-            h[m.to_s[prefix.length..-1]] = point.method(m)
+            if px = opts[:prefix]
+              h[m.to_s[px.size..-1]] = point.method(m) if m.to_s.start_with?(px)
+            else; sx = opts[:suffix]
+              h[m.to_s[0, sx.size-2]] = point.method(m) if m.to_s.end_with?(sx)
+            end
             h }
       ).freeze
     end
@@ -22,9 +42,9 @@ module Dispatio
 
   class Table
 
-    def initialize(prefix, table)
+    def initialize(opts, table)
 
-      @prefix = prefix
+      @opts = opts
       @table = table.freeze
     end
 
@@ -35,9 +55,16 @@ module Dispatio
 
     def call(name, *args, **opts, &block)
 
-      ( self[name] ||
-        fail(NoMethodError.new("no :#{@prefix}#{name} method"))
-          ).call(*args, **opts, &block)
+      m = self[name]
+
+      fail(
+        NoMethodError,
+        @opts[:prefix] ?
+          "no :#{@opts[:prefix]}#{name} method" :
+          "no :#{name}#{@opts[:suffix]} method"
+            ) unless m
+
+      m.call(*args, **opts, &block)
     end
     alias dispatch call
   end

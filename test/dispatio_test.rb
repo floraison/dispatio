@@ -50,23 +50,6 @@ group 'Dispatio' do
     end
   end
 
-  class Baz; class << self
-
-    def consume0(name, data); dtable.call(name, data); end
-    def consume1(name, data); dtable[name].call(data); end
-    def consume2(name, data); dtable[name].(data); end
-    def consume3(name, data); dtable.(name, data); end
-    def consume4(name, data); dtable[name][data]; end
-
-    protected
-
-    def validate_foo(data)
-      [ self, :vfoo, data ]
-    end
-
-    def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
-  end; end
-
   test 'against instance' do
 
     foo = Foo.new
@@ -95,6 +78,23 @@ group 'Dispatio' do
       NoMethodError, 'no :validate_nada method')
   end
 
+  class Baz; class << self
+
+    def consume0(name, data); dtable.call(name, data); end
+    def consume1(name, data); dtable[name].call(data); end
+    def consume2(name, data); dtable[name].(data); end
+    def consume3(name, data); dtable.(name, data); end
+    def consume4(name, data); dtable[name][data]; end
+
+    protected
+
+    def validate_foo(data)
+      [ self, :vfoo, data ]
+    end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
+  end; end
+
   test 'calls Baz' do
 
     assert Baz.consume0(:foo, 'seven'), [ Baz, :vfoo, 'seven' ]
@@ -102,6 +102,51 @@ group 'Dispatio' do
     assert Baz.consume2(:foo, 12), [ Baz, :vfoo, 12 ]
     assert Baz.consume3(:foo, 13), [ Baz, :vfoo, 13 ]
     assert Baz.consume4(:foo, -1), [ Baz, :vfoo, -1 ]
+  end
+
+  class Preposterous; class << self
+
+    def post(name, msg); dtable.dispatch(name, msg); end
+
+    protected
+
+    def post_alservice(msg); [ :postal, msg ]; end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, prefix: 'post_'); end
+  end; end
+
+  class Sufficient; class << self
+
+    def post(name, msg); dtable.dispatch(name, msg); end
+
+    protected
+
+    def foo_post(msg); [ :foop, msg ]; end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, suffix: '_post'); end
+  end; end
+
+  group 'prefix: and suffix:' do
+
+    test 'prefix:' do
+
+      assert Preposterous.post(:alservice, 'hello'), [ :postal, 'hello' ]
+      assert Preposterous.post('alservice', 'world'), [ :postal, 'world' ]
+
+      assert_error(
+        lambda { Preposterous.post(:nada, 'meh') },
+        NoMethodError, 'no :post_nada method')
+    end
+
+    test 'suffix:' do
+
+      assert Sufficient.post(:foo, 'hello'), [ :foop, 'hello' ]
+      assert Sufficient.post('foo', 'world'), [ :foop, 'world' ]
+
+      assert_error(
+        lambda { Sufficient.post(:nada, 'meh') },
+        NoMethodError, 'no :nada_post method')
+    end
   end
 end
 
