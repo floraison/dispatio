@@ -2,7 +2,10 @@
 # dispatio GHANGELOG.md
 
 
-## dispatio 1.2.1  not yet released
+## dispatio 1.2.1  released 2026-09-13
+
+* Accept implicit `_suffix`
+* Fix suffix:
 
 
 ## dispatio 1.2.0  released 2026-09-13
