@@ -8,8 +8,10 @@ module Dispatio
     def make_table(point, prefix_or_opts)
 
       opts =
-        prefix_or_opts.is_a?(String) ? { prefix: prefix_or_opts } :
-        prefix_or_opts
+        case poo = prefix_or_opts
+        when /\A_/ then { suffix: poo }
+        when String then { prefix: poo }
+        else poo; end
 
       fail(
         ArgumentError,

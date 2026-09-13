@@ -138,6 +138,15 @@ group 'Dispatio' do
     def dtable; @dtable ||= Dispatio.make_table(self, suffix: '_build'); end
   end; end
 
+  class Duquesne; class << self
+
+    def post(name, msg); dtable.call(name, msg); end
+
+    def carrier_build(msg); [ :carrier, msg ]; end
+
+    def dtable; @dtable ||= Dispatio.make_table(self, '_build'); end
+  end; end
+
   group 'prefix: and suffix:' do
 
     test 'prefix:' do
@@ -164,6 +173,11 @@ group 'Dispatio' do
 
       assert Suffren.post(:frigate, 'Duquesne'), [ :frigate, 'Duquesne' ]
       assert Suffren.post(:battleship, 'Missouri'), [ :battleship, 'Missouri' ]
+    end
+
+    test 'suffix: but _implicit' do
+
+      assert Duquesne.post(:carrier, 'DeGaulle'), [ :carrier, 'DeGaulle' ]
     end
   end
 end

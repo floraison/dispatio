@@ -19,7 +19,9 @@ class MyClass
 
   def post(type, msg)
 
-    (@ptable ||= Dispatio.make_table(self, suffix: '_post').call(type, msg)
+    (@ptable ||= Dispatio.make_table(self, '_post').call(type, msg)
+      # or, more explicitely
+    #(@ptable ||= Dispatio.make_table(self, suffix: '_post').call(type, msg)
   end
 
   protected
