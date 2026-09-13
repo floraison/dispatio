@@ -1,7 +1,7 @@
 
 module Dispatio
 
-  VERSION = '1.2.1'.freeze
+  VERSION = '1.3.0'.freeze
 
   class << self
 
