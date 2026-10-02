@@ -4,6 +4,7 @@
 
 ## dispatio 1.3.0  not yet released
 
+* Introduce make_table() default: value option
 * Introduce Dispatio::Table.names
 * Introduce Dispatio::Table.include?(name)
 

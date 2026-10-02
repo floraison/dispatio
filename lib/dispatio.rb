@@ -59,14 +59,15 @@ module Dispatio
 
       m = self[name]
 
+      return m.call(*args, **opts, &block) if m
+
+      return @opts[:default] if @opts.has_key?(:default)
+
       fail(
         NoMethodError,
         @opts[:prefix] ?
           "no :#{@opts[:prefix]}#{name} method" :
-          "no :#{name}#{@opts[:suffix]} method"
-            ) unless m
-
-      m.call(*args, **opts, &block)
+          "no :#{name}#{@opts[:suffix]} method")
     end
     alias dispatch call
 

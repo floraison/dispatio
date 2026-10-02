@@ -135,6 +135,35 @@ Bar.consume('bar', 'world') # ==> [ Bar, :vbar, 'world' ]
 Bar.consume(:nada, 'nemo') # ==> NoMethodError, 'no :validate_nada method'
 ```
 
+## the default: v option
+
+```ruby
+class Bonk; class << self
+
+  def consume(name, data)
+
+    dtable.dispatch(name, data)
+  end
+
+  protected
+
+  def validate_foo(data); [ self, :vfoo, data ]; end
+
+  def dtable
+
+    @dtable ||=
+      Dispatio.make_table(self, prefix: 'validate_', default: :x)
+  end
+end; end
+
+Bonk.consume('foo', { text: 'blah blah' })
+  # => [ Bonk, :vfoo, { text: 'blah blah' } ]
+Bonk.consume(:foo, { text: 'bullsh*t' })
+  # => [ Bonk, :vfoo, { text: 'bullsh*t' } ]
+Bonk.consume(:bar, { text: 'prank' })
+  # => :x
+```
+
 
 ## LICENSE
 

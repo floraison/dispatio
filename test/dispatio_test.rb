@@ -16,13 +16,8 @@ group 'Dispatio' do
 
     protected
 
-    def validate_foo(data)
-      [ self.class, :vfoo, data ]
-    end
-
-    def validate_bar(data)
-      [ self.class, :vbar, data ]
-    end
+    def validate_foo(data); [ self.class, :vfoo, data ]; end
+    def validate_bar(data); [ self.class, :vbar, data ]; end
 
     def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
   end
@@ -38,13 +33,8 @@ group 'Dispatio' do
 
       protected
 
-      def validate_foo(data)
-        [ self, :vfoo, data ]
-      end
-
-      def validate_bar(data)
-        [ self, :vbar, data ]
-      end
+      def validate_foo(data); [ self, :vfoo, data ]; end
+      def validate_bar(data); [ self, :vbar, data ]; end
 
       def dtable; @dtable ||= Dispatio.make_table(self, 'validate_'); end
     end
@@ -199,6 +189,37 @@ group 'Dispatio' do
     test 'list names' do
 
       assert Suffren.send(:dtable).names, %w[ frigate battleship ]
+    end
+  end
+
+  class Bonk; class << self
+
+    def consume(name, data)
+
+      dtable.dispatch(name, data)
+    end
+
+    protected
+
+    def validate_foo(data); [ self, :vfoo, data ]; end
+
+    def dtable
+
+      @dtable ||=
+        Dispatio.make_table(self, prefix: 'validate_', default: :x)
+    end
+  end; end
+
+  group 'default: :x' do
+
+    test 'it returns the result if it finds' do
+
+      assert Bonk.consume('foo', 1), [ Bonk, :vfoo, 1 ]
+    end
+
+    test 'it returns :x (no error) if there is no method for the name' do
+
+      assert Bonk.consume('bar', 11), :x
     end
   end
 end
