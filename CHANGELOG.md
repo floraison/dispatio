@@ -4,6 +4,8 @@
 
 ## dispatio 1.3.1  not yet released
 
+* Allow for `Dispatio.make_table(self, 'validate_', default: :x)`
+
 
 ## dispatio 1.3.0  released 2026-10-02
 

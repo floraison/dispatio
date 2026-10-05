@@ -210,7 +210,26 @@ group 'Dispatio' do
     end
   end; end
 
+  class Bonk2; class << self
+
+    def consume(name, data)
+
+      dtable.dispatch(name, data)
+    end
+
+    protected
+
+    def validate_foo(data); [ self, :vfoo, data ]; end
+
+    def dtable
+
+      @dtable ||= Dispatio.make_table(self, 'validate_', default: :x)
+    end
+  end; end
+
   group 'default: :x' do
+
+    # Bonk ...
 
     test 'it returns the result if it finds' do
 
@@ -220,6 +239,18 @@ group 'Dispatio' do
     test 'it returns :x (no error) if there is no method for the name' do
 
       assert Bonk.consume('bar', 11), :x
+    end
+
+    # Bonk2 ...
+
+    test 'it returns the result if it finds' do
+
+      assert Bonk2.consume('foo', 1), [ Bonk2, :vfoo, 1 ]
+    end
+
+    test 'it returns :x (no error) if there is no method for the name' do
+
+      assert Bonk2.consume('bar', 11), :x
     end
   end
 end

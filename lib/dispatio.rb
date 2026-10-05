@@ -5,13 +5,14 @@ module Dispatio
 
   class << self
 
-    def make_table(point, prefix_or_opts)
+    def make_table(point, prefix_or_opts, opts1={})
 
       opts =
         case poo = prefix_or_opts
         when /\A_/ then { suffix: poo }
         when String then { prefix: poo }
         else poo; end
+          .merge(opts1)
 
       fail(
         ArgumentError,
