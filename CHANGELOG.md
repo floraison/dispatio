@@ -2,7 +2,7 @@
 # dispatio GHANGELOG.md
 
 
-## dispatio 1.3.1  not yet released
+## dispatio 1.3.1  released 2026-10-05
 
 * Allow for `Dispatio.make_table(self, 'validate_', default: :x)`
 
